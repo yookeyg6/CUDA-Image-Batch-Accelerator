@@ -1,0 +1,11 @@
+This project demonstrates practical CUDA acceleration for batch image processing. It processes 1,000 small RGB images and applies two custom GPU kernels: RGB-to-grayscale conversion followed by Sobel edge detection.
+
+Each pixel is mapped to a CUDA thread, so thousands of independent pixel operations can execute concurrently. The CPU performs file I/O and orchestration, while the GPU performs the computationally intensive image transformations.
+
+A generated 128x128 PPM dataset was chosen because it is reproducible and avoids external image-library dependencies. The command-line interface controls the input directory, output directory, image limit, and CUDA launch configuration.
+
+CUDA events measure kernel execution time and the host timer measures total application time. The program reports the GPU device, processed image count, total pixels, kernel time, total runtime, and throughput.
+
+The main challenge was keeping the project compact while still going beyond a trivial CUDA example. Implementing grayscale and Sobel operations as custom kernels makes the parallel algorithm visible and demonstrates a realistic image-processing workload.
+
+The main lesson is that workloads containing many independent pixel operations are a natural fit for GPU parallelism. Future work could reduce host-device transfers by batching multiple images in device memory and compare block sizes or memory strategies on larger images.
